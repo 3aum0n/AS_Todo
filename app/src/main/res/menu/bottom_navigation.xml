@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_navigation_dashboard"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/dashboard" />
+
+    <item
+        android:id="@+id/bottom_navigation_schedule"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="@string/schedule" />
+
+    <item
+        android:id="@+id/bottom_navigation_settings"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/settings" />
+</menu>
