@@ -44,7 +44,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="@string/enter_task_title"
+        android:hint="@string/input_task_title"
         android:inputType="textCapSentences"
         android:singleLine="true"
         app:layout_constraintHorizontal_bias="0.0"

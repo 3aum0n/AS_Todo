@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Todo-master.iml" filepath="$PROJECT_DIR$/.idea/modules/Todo-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Todo-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Todo-master.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AS_Todo.iml" filepath="$PROJECT_DIR$/.idea/modules/AS_Todo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AS_Todo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AS_Todo.app.iml" />
     </modules>
   </component>
 </project>

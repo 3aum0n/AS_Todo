@@ -23,8 +23,33 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:ems="16"
+            android:hint="Enter task title or content or category"
+            android:inputType="textCapSentences"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/imgSearch"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="0dp"
+            android:paddingTop="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/search"
+            android:src="@drawable/ic_baseline_search_24"
+            android:tint="#26c6da" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewTask"
+        android:id="@+id/recyclerViewSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -36,18 +61,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </android.support.constraint.ConstraintLayout>

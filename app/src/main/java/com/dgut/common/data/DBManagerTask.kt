@@ -182,5 +182,40 @@ class DBManagerTask(val context: Context) {
         close()
     }
 
+    fun searchTaskList(content: String): java.util.ArrayList<TaskModel> {
+        open()
+
+        val arrayList = ArrayList<TaskModel>()
+
+        val query = "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%'"
+        val cursor = database.rawQuery(query, null)
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+
+//                val title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+//
+//                if (title == content) {
+
+                    val taskModel = TaskModel()
+
+                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
+                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+
+                    arrayList.add(taskModel)
+
+//                }
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        close()
+        return arrayList
+    }
+
 
 }

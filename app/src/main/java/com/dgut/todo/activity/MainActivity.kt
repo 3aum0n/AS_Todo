@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
@@ -18,13 +19,15 @@ import com.dgut.todo.R
 import com.dgut.todo.fragment.CategoryFragment
 import com.dgut.todo.fragment.DashboardFragment
 import com.dgut.todo.fragment.HistoryFragment
+import com.dgut.todo.fragment.SearchFragment
 import com.dgut.todo.utils.APP_PACKAGE_NAME
 import com.dgut.todo.utils.toastMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val TAG: String = MainActivity::class.java.simpleName
 
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         handler = Handler()
 
         nav_view.setNavigationItemSelectedListener(this)
+        bottom_navigation.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragmentClass: Class<*>? = null
 
         when (id) {
-            R.id.nav_dashboard -> {
+            R.id.nav_dashboard,R.id.btm_nav_dashboard -> {
                 fragmentClass = DashboardFragment::class.java
                 toolbarMain.title = getString(R.string.dashboard)
             }
@@ -139,6 +143,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_history -> {
                 fragmentClass = HistoryFragment::class.java
                 toolbarMain.title = getString(R.string.history)
+            }
+            R.id.btm_nav_calendar,R.id.btm_nav_focus -> {
+                fragmentClass = HistoryFragment::class.java
+                toolbarMain.title = getString(R.string.history)
+            }
+            R.id.btm_nav_search -> {
+                fragmentClass = SearchFragment::class.java
+                toolbarMain.title = getString(R.string.search)
             }
             R.id.nav_rate_us -> {
                 rateUs()
