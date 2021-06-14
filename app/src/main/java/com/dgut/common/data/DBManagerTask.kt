@@ -187,15 +187,11 @@ class DBManagerTask(val context: Context) {
 
         val arrayList = ArrayList<TaskModel>()
 
-        val query = "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%'"
+        val query = "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%' OR task LIKE '%$content%' OR category LIKE '%$content%'"
         val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-
-//                val title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
-//
-//                if (title == content) {
 
                     val taskModel = TaskModel()
 
@@ -208,7 +204,6 @@ class DBManagerTask(val context: Context) {
 
                     arrayList.add(taskModel)
 
-//                }
 
             } while (cursor.moveToNext())
         }
