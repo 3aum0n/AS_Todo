@@ -28,7 +28,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
                 TASK_TITLE + " TEXT, " +
                 TASK_TASK + " TEXT, " +
                 TASK_CATEGORY + " TEXT, " +
-                TASK_DATE + " TEXT, " +
+                TASK_YEAR + " TEXT, " +
+                TASK_MONTH + " TEXT, " +
+                TASK_DAY + " TEXT, " +
                 TASK_TIME + " TEXT, " +
                 TASK_FINISH + " TEXT); "
 

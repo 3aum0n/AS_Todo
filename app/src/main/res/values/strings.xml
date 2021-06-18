@@ -51,5 +51,14 @@
     <string name="search">Search</string>
     <string name="focus">Focus</string>
 
+    <string-array name="calendar_week">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tues</item>
+        <item>Wed</item>
+        <item>Thur</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
 
 </resources>

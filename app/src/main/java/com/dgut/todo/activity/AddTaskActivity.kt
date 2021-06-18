@@ -37,7 +37,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
     lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
 
     //Final variable to save in database
-    private var finalDate = ""
+    private var finalYear = ""
+    private var finalMonth = ""
+    private var finalDay = ""
     private var finalTime = ""
     private var finalTitle = ""
     private var finalTask = ""
@@ -153,21 +155,26 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
 
         if (finalTitle != "") {
             if (finalTask != "") {
-                if (finalDate != "") {
+                if (finalYear != "" && finalMonth != "" && finalDay != "") {
                     if (finalTime != "") {
 
                         //if time enter
                         Log.e(
-                            TAG, "Title : " + finalTitle + "\nTask : " + finalTask +
-                                    "\nDate : " + finalDate + "\nTime : " + finalTime +
+                            TAG, "Title : " + finalTitle +
+                                    "\nTask : " + finalTask +
+                                    "\nYear: " + finalYear +
+                                    "\nMonth : " + finalMonth +
+                                    "\nDay : " + finalDay +
+                                    "\nTime : " + finalTime +
                                     "\nCategory : " + finalCategoryName
                         )
-
                         dbManager.insert(
                             finalTitle,
                             finalTask,
                             finalCategoryName,
-                            finalDate,
+                            finalYear,
+                            finalMonth,
+                            finalDay,
                             finalTime
                         )
 
@@ -180,11 +187,22 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
 
                         //if only date enter
                         Log.e(
-                            TAG, "Title : " + finalTitle + "\nTask : " + finalTask +
-                                    "\nDate : " + finalDate + "\nCategory : " + finalCategoryName
+                            TAG, "Title : " + finalTitle +
+                                    "\nTask : " + finalTask +
+                                    "\nYear: " + finalYear +
+                                    "\nMonth : " + finalMonth +
+                                    "\nDay : " + finalDay +
+                                    "\nCategory : " + finalCategoryName
                         )
 
-                        dbManager.insert(finalTitle, finalTask, finalCategoryName, finalDate)
+                        dbManager.insert(
+                            finalTitle,
+                            finalTask,
+                            finalCategoryName,
+                            finalYear,
+                            finalMonth,
+                            finalDay
+                        )
 
 //                        myCalendar.set(Calendar.SECOND, 0)
 //                        setNotification(myCalendar) // Set notification
@@ -196,7 +214,8 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
 
                     //if date not enter
                     Log.e(
-                        TAG, "Title : " + finalTitle + "Task : " + finalTask +
+                        TAG, "Title : " + finalTitle +
+                                "Task : " + finalTask +
                                 "Category : " + finalCategoryName
                     )
 
@@ -284,7 +303,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
             }
             R.id.imgCancelDate -> {
                 edtSetDate.setText("")
-                finalDate = ""
+                finalYear = ""
+                finalMonth = ""
+                finalDay = ""
                 imgCancelDate.visibility = View.GONE
                 if (relativeLayoutTime.visibility == View.VISIBLE) {
                     relativeLayoutTime.visibility = View.GONE
@@ -359,13 +380,13 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
     private fun updateLabelTime() {
 
         val myFormat = "HH:mm"  // HH:mm:ss
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        val sdf = SimpleDateFormat(myFormat, Locale.CHINA)
 
         finalTime = sdf.format(myCalendar.time)
 
 
         val myFormat2 = "h:mm a"
-        val sdf2 = SimpleDateFormat(myFormat2, Locale.US)
+        val sdf2 = SimpleDateFormat(myFormat2, Locale.CHINA)
         edtSetTime.setText(sdf2.format(myCalendar.time))
 
         imgCancelTime.visibility = View.VISIBLE
@@ -378,13 +399,16 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
     private fun updateLabelDate() {
 
         val myFormat = "yyyy-MM-dd"
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        val sdf =
+            SimpleDateFormat(myFormat, Locale.CHINA).format(myCalendar.time).toString().split("-")
 
-        finalDate = sdf.format(myCalendar.time)
+        finalYear = sdf[0]
+        finalMonth = sdf[1]
+        finalDay = sdf[2]
 
 
         val myFormat2 = "EEE, d MMM yyyy"
-        val sdf2 = SimpleDateFormat(myFormat2, Locale.US)
+        val sdf2 = SimpleDateFormat(myFormat2, Locale.CHINA)
         edtSetDate.setText(sdf2.format(myCalendar.time))
 
         relativeLayoutTime.visibility = View.VISIBLE

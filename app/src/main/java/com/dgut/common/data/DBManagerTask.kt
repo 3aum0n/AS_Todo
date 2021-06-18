@@ -31,7 +31,9 @@ class DBManagerTask(val context: Context) {
         title: String,
         task: String,
         category: String,
-        date: String = "",
+        year: String = "",
+        month: String = "",
+        day: String = "",
         time: String = ""
     ) {
         open()
@@ -40,7 +42,9 @@ class DBManagerTask(val context: Context) {
         contentValues.put(TASK_TITLE, title)
         contentValues.put(TASK_TASK, task)
         contentValues.put(TASK_CATEGORY, category)
-        contentValues.put(TASK_DATE, date)
+        contentValues.put(TASK_YEAR, year)
+        contentValues.put(TASK_MONTH, month)
+        contentValues.put(TASK_DAY, day)
         contentValues.put(TASK_TIME, time)
         contentValues.put(TASK_FINISH, TASK_IS_NOT_FINISH)
 
@@ -57,7 +61,9 @@ class DBManagerTask(val context: Context) {
         title: String,
         task: String,
         category: String,
-        date: String = "",
+        year: String = "",
+        month: String = "",
+        day: String = "",
         time: String = ""
     ) {
         open()
@@ -67,7 +73,9 @@ class DBManagerTask(val context: Context) {
         contentValues.put(TASK_TITLE, title)
         contentValues.put(TASK_TASK, task)
         contentValues.put(TASK_CATEGORY, category)
-        contentValues.put(TASK_DATE, date)
+        contentValues.put(TASK_YEAR, year)
+        contentValues.put(TASK_MONTH, month)
+        contentValues.put(TASK_DAY, day)
         contentValues.put(TASK_TIME, time)
 
         database.update(TABLE_TASK, contentValues, "$ID = $id", null)
@@ -94,7 +102,6 @@ class DBManagerTask(val context: Context) {
 
         val query = "SELECT * FROM $TABLE_TASK"
         val cursor = database.rawQuery(query, null)
-
         if (cursor != null && cursor.moveToFirst()) {
             do {
 
@@ -109,7 +116,9 @@ class DBManagerTask(val context: Context) {
                     taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
                     taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
                     taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
-                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
+                    taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
+                    taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
+                    taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
                     taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
 
                     arrayList.add(taskModel)
@@ -158,7 +167,9 @@ class DBManagerTask(val context: Context) {
                     taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
                     taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
                     taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
-                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
+                    taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
+                    taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
+                    taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
                     taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
 
                     arrayList.add(taskModel)
@@ -187,22 +198,25 @@ class DBManagerTask(val context: Context) {
 
         val arrayList = ArrayList<TaskModel>()
 
-        val query = "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%' OR task LIKE '%$content%' OR category LIKE '%$content%'"
+        val query =
+            "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%' OR task LIKE '%$content%' OR category LIKE '%$content%'"
         val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
 
-                    val taskModel = TaskModel()
+                val taskModel = TaskModel()
 
-                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
-                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
-                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
-                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
-                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
-                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+                taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
+                taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
+                taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
+                taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
 
-                    arrayList.add(taskModel)
+                arrayList.add(taskModel)
 
 
             } while (cursor.moveToNext())
@@ -211,6 +225,4 @@ class DBManagerTask(val context: Context) {
         close()
         return arrayList
     }
-
-
 }

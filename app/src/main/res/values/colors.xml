@@ -54,4 +54,9 @@
         <item name="blue_grey_400" type="color">#78909c</item>
     </array>
 
+    <color name="calendar_bg_color">#FFFFFF</color>
+    <color name="holiday_text_color">#9082BD</color>
+    <color name="select_circle_color">#FF8594</color>
+    <color name="colorBackground">#F0F1F5</color>
+
 </resources>

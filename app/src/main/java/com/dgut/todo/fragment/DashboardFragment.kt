@@ -115,8 +115,9 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
             holder.txtShowTitle.maxLines = Integer.MAX_VALUE
             holder.txtShowTask.maxLines = Integer.MAX_VALUE
 
-            if (taskList[position].date != "") {
-                holder.txtShowDate.text = getFormatDate(taskList[position].date!!)
+            if (taskList[position].year != "") {
+                holder.txtShowDate.text =
+                    getFormatDate(taskList[position].year!! + "-" + taskList[position].month!! + "-" + taskList[position].day!!)
                 holder.textDate.visibility = View.VISIBLE
                 holder.txtShowDate.visibility = View.VISIBLE
             }
@@ -134,7 +135,7 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
             holder.txtShowTask.maxLines = 1
             holder.txtShowTitle.maxLines = 1
 
-            if (taskList[position].date != "") {
+            if (taskList[position].year != "") {
                 holder.textDate.visibility = View.GONE
                 holder.txtShowDate.visibility = View.GONE
             }

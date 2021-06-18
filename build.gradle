@@ -27,7 +27,7 @@ allprojects {
         build_tools_version = '25.0.2'
         min_sdk_version = 16
         target_sdk_version = 25
-        support_library_version = '24.2.0'
+        support_library_version = '25.3.1'
     }
 }
 
