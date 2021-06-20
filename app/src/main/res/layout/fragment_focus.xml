@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <FrameLayout
+        android:id="@+id/focusLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="210dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="250dp"
+            android:background="@drawable/cute" />
+
+        <TextView
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="150dp"
+            android:text="@string/tips"
+            android:textColor="@color/colorBlack"
+            android:textSize="33sp"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textSize="80sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/minute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="minute"
+                android:textColor="@color/colorBlack"
+                android:textSize="40sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/StartFocus"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/btn_selector"
+            android:gravity="center"
+            android:text="@string/start"
+            android:textColor="@color/colorWhite"
+            android:textSize="33sp"
+            android:visibility="visible" />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

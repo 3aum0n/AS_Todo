@@ -16,10 +16,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.dgut.todo.R
-import com.dgut.todo.fragment.CategoryFragment
-import com.dgut.todo.fragment.DashboardFragment
-import com.dgut.todo.fragment.HistoryFragment
-import com.dgut.todo.fragment.SearchFragment
+import com.dgut.todo.fragment.*
 import com.dgut.todo.utils.APP_PACKAGE_NAME
 import com.dgut.todo.utils.toastMessage
 import kotlinx.android.synthetic.main.activity_main.*
@@ -144,9 +141,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragmentClass = HistoryFragment::class.java
                 toolbarMain.title = getString(R.string.history)
             }
-            R.id.btm_nav_calendar,R.id.btm_nav_focus -> {
+            R.id.btm_nav_schedule -> {
                 fragmentClass = HistoryFragment::class.java
                 toolbarMain.title = getString(R.string.history)
+            }
+            R.id.btm_nav_focus-> {
+                fragmentClass = FocusFragment::class.java
+                toolbarMain.title = getString(R.string.focus)
             }
             R.id.btm_nav_search -> {
                 fragmentClass = SearchFragment::class.java

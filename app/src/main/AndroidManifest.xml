@@ -35,6 +35,10 @@
             android:name=".activity.AddTaskActivity"
             android:label="@string/add_task" />
 
+        <activity
+            android:name=".fragment.CountdownFragment"
+            android:label="@string/countdown" />
+
         <receiver
             android:name=".task.receiver.AlarmReceiver"
             android:enabled="true" />

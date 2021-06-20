@@ -43,16 +43,6 @@ class SearchFragment : Fragment(), View.OnClickListener {
     private lateinit var dbManager: DBManagerTask
     lateinit var taskAdapter: TaskAdapter
 
-    private lateinit var mItemTouchHelper: ItemTouchHelper
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.fragment_search)
-//        imgSearch.setOnClickListener(this)
-//        search.setOnClickListener(this)
-//
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater?,
         container: ViewGroup?,
@@ -60,7 +50,6 @@ class SearchFragment : Fragment(), View.OnClickListener {
     ): View? {
         val view = inflater!!.inflate(R.layout.fragment_search, container, false)
 
-//        searchLayout.setListener()
         initialize(view)
 
         return view
@@ -81,15 +70,10 @@ class SearchFragment : Fragment(), View.OnClickListener {
             LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
         dbManager = DBManagerTask(activity)
-//        mArrayList = dbManager.getHistoryTaskList()
         taskAdapter = TaskAdapter(activity, mArrayList)
 
         view.imgSearch.setOnClickListener(this)
     }
-
-//    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-//        mItemTouchHelper.startDrag(viewHolder)
-//    }
 
     private fun clickForDetails(holder: TaskAdapter.ViewHolder, position: Int) {
 
@@ -278,15 +262,14 @@ class SearchFragment : Fragment(), View.OnClickListener {
                     return
                 }
                 mArrayList = dbManager.searchTaskList(searchContent)
+                if(mArrayList.size == 0){
+                    Toast.makeText(context,"Nothing",Toast.LENGTH_SHORT).show()
+                }
                 taskAdapter = TaskAdapter(activity, mArrayList)
                 isTaskListEmpty()
                 recyclerViewSearch.adapter = taskAdapter
 
                 initSwipe()
-
-//        val callback = SimpleItemTouchHelperCallback(taskAdapter)
-//        mItemTouchHelper = ItemTouchHelper(callback)
-//        mItemTouchHelper.attachToRecyclerView(recyclerViewSearch)
 
                 recyclerViewSearch.addOnItemTouchListener(
                     RecyclerItemClickListener(

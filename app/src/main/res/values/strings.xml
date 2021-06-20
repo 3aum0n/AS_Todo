@@ -30,6 +30,7 @@
     <string name="please_add_title">Please add title</string>
     <string name="add">ADD</string>
     <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
     <string name="category_added">Category Added</string>
     <string name="please_enter_category_to_add">Please enter category to add</string>
     <string name="update">UPDATE</string>
@@ -50,6 +51,12 @@
     <string name="schedule">Schedule</string>
     <string name="search">Search</string>
     <string name="focus">Focus</string>
+    <string name="start">Open focus mode</string>
+    <string name="tips">Please input the duration:</string>
+    <string name="cancelFocus">Cancel focus mode</string>
+    <string name="countdown">Countdown</string>
+    <string name="focus_finish">Challenge success</string>
+    <string name="sentence">A good beginning is half done !</string>
 
     <string-array name="calendar_week">
         <item>Sun</item>
