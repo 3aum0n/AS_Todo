@@ -68,4 +68,23 @@
         <item>Sat</item>
     </string-array>
 
+    <!--calendar-->
+    <string name="calendar_today">Today</string>
+    <string-array name="calendar_month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string name="calendar_day">%d</string>
+    <string name="calendar_year">%d-</string>
+
 </resources>

@@ -22,9 +22,11 @@ import com.dgut.todo.utils.toastMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val TAG: String = MainActivity::class.java.simpleName
 
@@ -33,13 +35,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var handler: Handler
     private var doubleBackToExitPressedOnce = false
 
+    private lateinit var mMonthText: Array<String>
+    private var tvTitleMonth: String? = null
+    private var tvTitleDay: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initialize()
+        mMonthText = resources.getStringArray(R.array.calendar_month)
 
-//        checkForUpdate().execute()
+        initialize()
 
         // loading dashboard fragment
         val ft = supportFragmentManager.beginTransaction()
@@ -117,7 +123,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          * load fragment after delay of drawer close
          * */
         handler.postDelayed({ navigate(item.itemId) }, 280)
-
         return true
     }
 
@@ -127,9 +132,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun navigate(id: Int) {
         var fragment: Fragment? = null
         var fragmentClass: Class<*>? = null
+        tvTitleMonth = mMonthText[Calendar.getInstance()[Calendar.MONTH]]
+        tvTitleDay = getString(R.string.calendar_today)
 
         when (id) {
-            R.id.nav_dashboard,R.id.btm_nav_dashboard -> {
+            R.id.nav_dashboard, R.id.btm_nav_dashboard -> {
                 fragmentClass = DashboardFragment::class.java
                 toolbarMain.title = getString(R.string.dashboard)
             }
@@ -142,10 +149,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 toolbarMain.title = getString(R.string.history)
             }
             R.id.btm_nav_schedule -> {
-                fragmentClass = HistoryFragment::class.java
-                toolbarMain.title = getString(R.string.history)
+                fragmentClass = ScheduleFragment::class.java
+                toolbarMain.title = "$tvTitleMonth $tvTitleDay"
             }
-            R.id.btm_nav_focus-> {
+            R.id.btm_nav_focus -> {
                 fragmentClass = FocusFragment::class.java
                 toolbarMain.title = getString(R.string.focus)
             }
@@ -202,38 +209,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(Intent.createChooser(sendIntent, "Send to..."))
     }
 
-//    private inner class checkForUpdate : AsyncTask<String, String, String>() {
-//
-//        var pInfo = packageManager.getPackageInfo(packageName, 0)
-//        val oldVersion: String = pInfo.versionName
-//        lateinit var newVersion: String
-//
-//        override fun doInBackground(vararg urls: String): String? {
-//
-//
-//            newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" +
-//                    APP_PACKAGE_NAME + "&hl=en")
-//                    .timeout(30000)
-//                    .userAgent(
-//                            "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-//                    .referrer("http://www.google.com").get()
-//                    .select("div[itemprop=softwareVersion]").first()
-//                    .ownText()
-//
-//            Log.e("new Version", newVersion)
-//            Log.e("old Version", oldVersion)
-//
-//            return null
-//        }
-//
-//        override fun onPostExecute(result: String?) {
-//            super.onPostExecute(result)
-//            if (newVersion.equals(oldVersion)) {
-//                Log.e(TAG, "Update not available version : " + newVersion)
-//            } else {
-//                Log.e(TAG, "Update available version : " + newVersion)
-//            }
-//        }
-//
-//    }
+    fun resetMainTitleDate(year: Int, month: Int, day: Int) {
+        val calendar = Calendar.getInstance()
+        if (year == calendar[Calendar.YEAR] && month == calendar[Calendar.MONTH] && day == calendar[Calendar.DAY_OF_MONTH]) {
+            tvTitleMonth = mMonthText.get(month)
+            tvTitleDay = getString(R.string.calendar_today)
+        } else {
+            if (year == calendar[Calendar.YEAR]) {
+                tvTitleMonth = mMonthText.get(month)
+            } else {
+                tvTitleMonth = String.format(
+                    "%s%s", java.lang.String.format(getString(R.string.calendar_year), year),
+                    mMonthText.get(month)
+                )
+            }
+            tvTitleDay = java.lang.String.format(getString(R.string.calendar_day), day)
+        }
+        toolbarMain.title = "$tvTitleMonth $tvTitleDay"
+    }
 }

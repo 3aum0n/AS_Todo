@@ -31,7 +31,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
 
     val mActivity: Activity = this@AddTaskActivity
 
-    lateinit var myCalendar: Calendar
+    var myCalendar = Calendar.getInstance()
 
     lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
     lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
@@ -45,9 +45,18 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
     private var finalTask = ""
     private var finalCategoryName = ""
 
+    private var SelectYear: Int = 0
+    private var SelectMonth: Int = 0
+    private var SelectDay: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_task)
+
+        val variables = intent
+        SelectYear = variables.getIntExtra("year", myCalendar[Calendar.YEAR])
+        SelectMonth = variables.getIntExtra("month", myCalendar[Calendar.MONTH])
+        SelectDay = variables.getIntExtra("day", myCalendar[Calendar.DAY_OF_MONTH])
 
         initialize()
     }
@@ -70,6 +79,11 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
         imgCancelDate.setOnClickListener(this)
         imgCancelTime.setOnClickListener(this)
         imgAddCategory.setOnClickListener(this)
+
+        myCalendar.set(Calendar.YEAR, SelectYear)
+        myCalendar.set(Calendar.MONTH, SelectMonth)
+        myCalendar.set(Calendar.DAY_OF_MONTH, SelectDay)
+        updateLabelDate()
 
         /**
          * load category in spinner
@@ -357,7 +371,8 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
             this, dateSetListener, myCalendar.get(Calendar.YEAR),
             myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)
         )
-        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+        // Limit date selection range
+//        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
         datePickerDialog.show()
 
     }
@@ -405,7 +420,6 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd,
         finalYear = sdf[0]
         finalMonth = sdf[1]
         finalDay = sdf[2]
-
 
         val myFormat2 = "EEE, d MMM yyyy"
         val sdf2 = SimpleDateFormat(myFormat2, Locale.CHINA)

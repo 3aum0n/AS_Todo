@@ -1,11 +1,9 @@
 package com.dgut.todo.fragment
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.graphics.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -20,12 +18,9 @@ import com.dgut.todo.R
 import com.dgut.todo.adapter.TaskAdapter
 import com.dgut.common.data.DBManagerTask
 import com.dgut.common.model.TaskModel
-import com.dgut.todo.utils.dialogAddCategory
 import com.dgut.todo.utils.getFormatDate
 import com.dgut.todo.utils.getFormatTime
 import com.dgut.todo.utils.views.recyclerview.itemclick.RecyclerItemClickListener
-import com.dgut.todo.utils.views.recyclerview.itemdrag.OnStartDragListener
-import kotlinx.android.synthetic.main.activity_add_task.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.*
@@ -33,7 +28,7 @@ import java.util.*
 
 class SearchFragment : Fragment(), View.OnClickListener {
 
-    val TAG: String = HistoryFragment::class.java.simpleName
+    val TAG: String = SearchFragment::class.java.simpleName
 
     private lateinit var txtNoHistory: TextView
     private lateinit var recyclerViewSearch: RecyclerView
