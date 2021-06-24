@@ -28,13 +28,13 @@ class DBManagerTask(val context: Context) {
      * insert value in task table
      */
     fun insert(
-        title: String,
-        task: String,
-        category: String,
-        year: String = "",
-        month: String = "",
-        day: String = "",
-        time: String = ""
+            title: String,
+            task: String,
+            category: String,
+            year: String = "",
+            month: String = "",
+            day: String = "",
+            time: String = ""
     ) {
         open()
 
@@ -57,14 +57,14 @@ class DBManagerTask(val context: Context) {
      * update value in task table
      */
     fun update(
-        id: Int,
-        title: String,
-        task: String,
-        category: String,
-        year: String = "",
-        month: String = "",
-        day: String = "",
-        time: String = ""
+            id: Int,
+            title: String,
+            task: String,
+            category: String,
+            year: String = "",
+            month: String = "",
+            day: String = "",
+            time: String = ""
     ) {
         open()
 
@@ -106,7 +106,7 @@ class DBManagerTask(val context: Context) {
             do {
 
                 val isFinish =
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
 
                 if (isFinish == TASK_IS_NOT_FINISH) {
 
@@ -130,6 +130,43 @@ class DBManagerTask(val context: Context) {
         cursor.close()
         close()
         return arrayList
+    }
+
+    /**
+     * get task list from Task table by id
+     */
+    fun getTaskListById(id: Int): TaskModel {
+
+        open()
+
+        val taskModel = TaskModel()
+
+        val query = "SELECT * FROM $TABLE_TASK WHERE ID = $id"
+        val cursor = database.rawQuery(query, null)
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+
+                val isFinish =
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
+
+                if (isFinish == TASK_IS_NOT_FINISH) {
+
+                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                    taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
+                    taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
+                    taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
+                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+
+                }
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        close()
+        return taskModel
     }
 
     /**
@@ -157,7 +194,7 @@ class DBManagerTask(val context: Context) {
             do {
 
                 val isFinish =
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
 
                 if (isFinish == TASK_IS_FINISH) {
 
@@ -199,7 +236,7 @@ class DBManagerTask(val context: Context) {
         val arrayList = ArrayList<TaskModel>()
 
         val query =
-            "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%' OR task LIKE '%$content%' OR category LIKE '%$content%'"
+                "SELECT * FROM $TABLE_TASK WHERE TITLE LIKE '%$content%' OR task LIKE '%$content%' OR category LIKE '%$content%'"
         val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -231,11 +268,11 @@ class DBManagerTask(val context: Context) {
         val taskHint: MutableList<Int> = java.util.ArrayList()
 
         val cursor = database.query(
-            TABLE_TASK, arrayOf(TASK_DAY),
-            java.lang.String.format(
-                "%s=? and %s=?", TASK_YEAR,
-                TASK_MONTH
-            ), arrayOf(year.toString(), month.toString()), null, null, null
+                TABLE_TASK, arrayOf(TASK_DAY),
+                java.lang.String.format(
+                        "%s=? and %s=?", TASK_YEAR,
+                        TASK_MONTH
+                ), arrayOf(year.toString(), month.toString()), null, null, null
         )
         while (cursor.moveToNext()) {
             taskHint.add(cursor.getInt(0))
@@ -246,42 +283,42 @@ class DBManagerTask(val context: Context) {
     }
 
     fun getTaskHintByWeek(
-        firstYear: Int,
-        firstMonth: Int,
-        firstDay: Int,
-        endYear: Int,
-        endMonth: Int,
-        endDay: Int
+            firstYear: Int,
+            firstMonth: Int,
+            firstDay: Int,
+            endYear: Int,
+            endMonth: Int,
+            endDay: Int
     ): List<Int>? {
         open()
 
         val taskHint: MutableList<Int> = ArrayList()
         val cursor1 = database.query(
-            TABLE_TASK,
-            arrayOf(TASK_DAY),
-            java.lang.String.format(
-                "%s=? and %s=? and %s>=?",
-                TASK_YEAR,
-                TASK_MONTH,
-                TASK_DAY
-            ),
-            arrayOf(firstYear.toString(), firstMonth.toString(), firstDay.toString()),
-            null,
-            null,
-            null
+                TABLE_TASK,
+                arrayOf(TASK_DAY),
+                java.lang.String.format(
+                        "%s=? and %s=? and %s>=?",
+                        TASK_YEAR,
+                        TASK_MONTH,
+                        TASK_DAY
+                ),
+                arrayOf(firstYear.toString(), firstMonth.toString(), firstDay.toString()),
+                null,
+                null,
+                null
         )
         while (cursor1.moveToNext()) {
             taskHint.add(cursor1.getInt(0))
         }
         cursor1.close()
         val cursor2 = database.query(
-            TABLE_TASK, arrayOf(TASK_DAY),
-            java.lang.String.format(
-                "%s=? and %s=? and %s<=?",
-                TASK_YEAR,
-                TASK_MONTH,
-                TASK_DAY
-            ), arrayOf(endYear.toString(), endMonth.toString(), endDay.toString()), null, null, null
+                TABLE_TASK, arrayOf(TASK_DAY),
+                java.lang.String.format(
+                        "%s=? and %s=? and %s<=?",
+                        TASK_YEAR,
+                        TASK_MONTH,
+                        TASK_DAY
+                ), arrayOf(endYear.toString(), endMonth.toString(), endDay.toString()), null, null, null
         )
         while (cursor2.moveToNext()) {
             taskHint.add(cursor2.getInt(0))
@@ -297,13 +334,13 @@ class DBManagerTask(val context: Context) {
         val arrayList = ArrayList<TaskModel>()
 
         val query =
-            "SELECT * FROM $TABLE_TASK WHERE $TASK_YEAR = '$year' AND $TASK_MONTH = '$month' AND $TASK_DAY = '$day'"
+                "SELECT * FROM $TABLE_TASK WHERE $TASK_YEAR = '$year' AND $TASK_MONTH = '$month' AND $TASK_DAY = '$day'"
         val cursor = database.rawQuery(query, null)
         if (cursor != null && cursor.moveToFirst()) {
             do {
 
                 val isFinish =
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
 
                 if (isFinish == TASK_IS_NOT_FINISH) {
 

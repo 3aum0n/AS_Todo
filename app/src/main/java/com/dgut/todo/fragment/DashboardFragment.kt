@@ -2,6 +2,7 @@ package com.dgut.todo.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
@@ -21,9 +22,8 @@ import com.dgut.todo.activity.AddTaskActivity
 import com.dgut.todo.adapter.TaskAdapter
 import com.dgut.common.data.DBManagerTask
 import com.dgut.common.model.TaskModel
-import com.dgut.todo.utils.DASHBOARD_RECYCLEVIEW_REFRESH
-import com.dgut.todo.utils.getFormatDate
-import com.dgut.todo.utils.getFormatTime
+import com.dgut.todo.activity.UpdateTaskActivity
+import com.dgut.todo.utils.*
 import com.dgut.todo.utils.views.recyclerview.itemclick.RecyclerItemClickListener
 import com.dgut.todo.utils.views.recyclerview.itemdrag.OnStartDragListener
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
@@ -44,9 +44,9 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
     private lateinit var mItemTouchHelper: ItemTouchHelper
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater?,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         var view = inflater!!.inflate(R.layout.fragment_dashboard, container, false)
@@ -64,7 +64,7 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
 
         recyclerViewTask.setHasFixedSize(true)
         recyclerViewTask.layoutManager =
-            LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+                LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
         fabAddTask.setOnClickListener(this)
 
@@ -81,22 +81,22 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
 //        mItemTouchHelper.attachToRecyclerView(recyclerViewTask)
 
         recyclerViewTask.addOnItemTouchListener(
-            RecyclerItemClickListener(
-                context,
-                recyclerViewTask,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        Log.e(TAG, "item click Position : $position")
+                RecyclerItemClickListener(
+                        context,
+                        recyclerViewTask,
+                        object : RecyclerItemClickListener.OnItemClickListener {
+                            override fun onItemClick(view: View, position: Int) {
+                                Log.e(TAG, "item click Position : $position")
 
-                        val holder: TaskAdapter.ViewHolder = TaskAdapter.ViewHolder(view)
+                                val holder: TaskAdapter.ViewHolder = TaskAdapter.ViewHolder(view)
 
-                        clickForDetails(holder, position)
-                    }
+                                clickForDetails(holder, position)
+                            }
 
-                    override fun onLongItemClick(view: View, position: Int) {
-                        Log.e(TAG, "item long click Position : $position")
-                    }
-                })
+                            override fun onLongItemClick(view: View, position: Int) {
+                                longClickForUpdate(position)
+                            }
+                        })
         )
     }
 
@@ -117,7 +117,7 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
 
             if (taskList[position].year != "") {
                 holder.txtShowDate.text =
-                    getFormatDate(taskList[position].year!! + "-" + taskList[position].month!! + "-" + taskList[position].day!!)
+                        getFormatDate(taskList[position].year!! + "-" + taskList[position].month!! + "-" + taskList[position].day!!)
                 holder.textDate.visibility = View.VISIBLE
                 holder.txtShowDate.visibility = View.VISIBLE
             }
@@ -148,6 +148,17 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
         }
     }
 
+    private fun longClickForUpdate(position: Int) {
+        Log.e(TAG, "item long click Position : $position")
+        val taskList = taskAdapter.getList()
+        val intent = Intent(activity, UpdateTaskActivity::class.java)
+        intent.putExtra("id", taskList[position].id)
+        startActivityForResult(
+                intent,
+                DASHBOARD_RECYCLEVIEW_REFRESH
+        )
+    }
+
     override fun onResume() {
         super.onResume()
         isTaskListEmpty()
@@ -158,8 +169,8 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
         when (view!!.id) {
             R.id.fabAddTask -> {
                 startActivityForResult(
-                    Intent(activity, AddTaskActivity::class.java),
-                    DASHBOARD_RECYCLEVIEW_REFRESH
+                        Intent(activity, AddTaskActivity::class.java),
+                        DASHBOARD_RECYCLEVIEW_REFRESH
                 )
             }
         }
@@ -181,12 +192,12 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
     private fun initSwipe() {
 
         val simpleItemTouchCallback = object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
             ): Boolean {
                 return false
             }
@@ -195,6 +206,7 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
                 val position = viewHolder.adapterPosition
 
                 if (direction == ItemTouchHelper.LEFT) {
+//                    dialog(position)
                     taskAdapter.deleteTask(position)
                     isTaskListEmpty()
                 } else {
@@ -203,15 +215,19 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
                 }
             }
 
+//            fun dialog(position:Int){
+//                dialogFinishTask(context, mArrayList[position].id!!, this)
+//            }
+
             @SuppressLint("ResourceType")
             override fun onChildDraw(
-                canvas: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
+                    canvas: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
             ) {
 
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
@@ -224,40 +240,40 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
                     if (dX > 0) {
 
                         iconBitmap =
-                            BitmapFactory.decodeResource(resources, R.mipmap.ic_check_white_png)
+                                BitmapFactory.decodeResource(resources, R.mipmap.ic_check_white_png)
 
                         paint.color = Color.parseColor(getString(R.color.green))
 
                         canvas.drawRect(
-                            itemView.left.toFloat(), itemView.top.toFloat(),
-                            itemView.left.toFloat() + dX, itemView.bottom.toFloat(), paint
+                                itemView.left.toFloat(), itemView.top.toFloat(),
+                                itemView.left.toFloat() + dX, itemView.bottom.toFloat(), paint
                         )
 
                         // Set the image icon for Right side swipe
                         canvas.drawBitmap(
-                            iconBitmap,
-                            itemView.left.toFloat() + convertDpToPx(16),
-                            itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - iconBitmap.height.toFloat()) / 2,
-                            paint
+                                iconBitmap,
+                                itemView.left.toFloat() + convertDpToPx(16),
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - iconBitmap.height.toFloat()) / 2,
+                                paint
                         )
                     } else {
 
                         iconBitmap =
-                            BitmapFactory.decodeResource(resources, R.mipmap.ic_delete_white_png)
+                                BitmapFactory.decodeResource(resources, R.mipmap.ic_delete_white_png)
 
                         paint.color = Color.parseColor(getString(R.color.red))
 
                         canvas.drawRect(
-                            itemView.right.toFloat() + dX, itemView.top.toFloat(),
-                            itemView.right.toFloat(), itemView.bottom.toFloat(), paint
+                                itemView.right.toFloat() + dX, itemView.top.toFloat(),
+                                itemView.right.toFloat(), itemView.bottom.toFloat(), paint
                         )
 
                         //Set the image icon for Left side swipe
                         canvas.drawBitmap(
-                            iconBitmap,
-                            itemView.right.toFloat() - convertDpToPx(16) - iconBitmap.width,
-                            itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - iconBitmap.height.toFloat()) / 2,
-                            paint
+                                iconBitmap,
+                                itemView.right.toFloat() - convertDpToPx(16) - iconBitmap.width,
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - iconBitmap.height.toFloat()) / 2,
+                                paint
                         )
                     }
 
@@ -265,19 +281,19 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
 
                     // Fade out the view as it is swiped out of the parent's bounds
                     val alpha: Float =
-                        ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
+                            ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
                     viewHolder.itemView.alpha = alpha
                     viewHolder.itemView.translationX = dX
 
                 } else {
                     super.onChildDraw(
-                        canvas,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
+                            canvas,
+                            recyclerView,
+                            viewHolder,
+                            dX,
+                            dY,
+                            actionState,
+                            isCurrentlyActive
                     )
                 }
             }

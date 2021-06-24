@@ -7,12 +7,11 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.Spinner
 import android.widget.Toast
-import com.dgut.common.data.CategoryAdd
-import com.dgut.common.data.CategoryDelete
-import com.dgut.common.data.CategoryUpdate
+import com.dgut.common.data.*
 import com.dgut.todo.R
-import com.dgut.common.data.DBManagerCategory
 import com.dgut.todo.fragment.CategoryFragment
 import java.text.ParseException
 import java.text.SimpleDateFormat

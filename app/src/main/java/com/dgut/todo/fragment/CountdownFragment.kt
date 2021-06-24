@@ -68,6 +68,7 @@ class CountdownFragment : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onFinish() {
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
 
@@ -79,9 +80,9 @@ class CountdownFragment : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.CancelFocus -> {
-                setResult(Activity.RESULT_OK, intent);
+                setResult(Activity.RESULT_CANCELED, intent)
                 CountDown.cancel()
-                CountDown.onFinish()
+                finish()
             }
 
         }

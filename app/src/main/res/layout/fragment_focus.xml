@@ -27,7 +27,7 @@
             android:layout_marginBottom="150dp"
             android:text="@string/tips"
             android:textColor="@color/colorBlack"
-            android:textSize="33sp"
+            android:textSize="26sp"
             android:visibility="visible" />
 
         <LinearLayout

@@ -36,6 +36,10 @@
             android:label="@string/add_task" />
 
         <activity
+            android:name=".activity.UpdateTaskActivity"
+            android:label="@string/update_task" />
+
+        <activity
             android:name=".fragment.CountdownFragment"
             android:label="@string/countdown" />
 
