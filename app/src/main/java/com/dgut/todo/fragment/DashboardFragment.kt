@@ -76,10 +76,6 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
 
         initSwipe()
 
-//        val callback = SimpleItemTouchHelperCallback(taskAdapter)
-//        mItemTouchHelper = ItemTouchHelper(callback)
-//        mItemTouchHelper.attachToRecyclerView(recyclerViewTask)
-
         recyclerViewTask.addOnItemTouchListener(
                 RecyclerItemClickListener(
                         context,
@@ -206,7 +202,6 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
                 val position = viewHolder.adapterPosition
 
                 if (direction == ItemTouchHelper.LEFT) {
-//                    dialog(position)
                     taskAdapter.deleteTask(position)
                     isTaskListEmpty()
                 } else {
@@ -214,10 +209,6 @@ class DashboardFragment : Fragment(), View.OnClickListener, OnStartDragListener 
                     isTaskListEmpty()
                 }
             }
-
-//            fun dialog(position:Int){
-//                dialogFinishTask(context, mArrayList[position].id!!, this)
-//            }
 
             @SuppressLint("ResourceType")
             override fun onChildDraw(

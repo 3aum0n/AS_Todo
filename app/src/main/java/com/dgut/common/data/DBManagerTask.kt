@@ -145,22 +145,14 @@ class DBManagerTask(val context: Context) {
         val cursor = database.rawQuery(query, null)
         if (cursor != null && cursor.moveToFirst()) {
             do {
-
-                val isFinish =
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
-
-                if (isFinish == TASK_IS_NOT_FINISH) {
-
-                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
-                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
-                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
-                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
-                    taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
-                    taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
-                    taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
-                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
-
-                }
+                taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                taskModel.year = cursor.getString(cursor.getColumnIndex(TASK_YEAR))
+                taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
+                taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
+                taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
 
             } while (cursor.moveToNext())
         }
@@ -252,6 +244,7 @@ class DBManagerTask(val context: Context) {
                 taskModel.month = cursor.getString(cursor.getColumnIndex(TASK_MONTH))
                 taskModel.day = cursor.getString(cursor.getColumnIndex(TASK_DAY))
                 taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+                taskModel.finish = cursor.getString(cursor.getColumnIndex(TASK_FINISH))
 
                 arrayList.add(taskModel)
 

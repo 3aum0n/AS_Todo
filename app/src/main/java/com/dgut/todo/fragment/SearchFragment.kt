@@ -1,6 +1,7 @@
 package com.dgut.todo.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,6 +19,9 @@ import com.dgut.todo.R
 import com.dgut.todo.adapter.TaskAdapter
 import com.dgut.common.data.DBManagerTask
 import com.dgut.common.model.TaskModel
+import com.dgut.todo.activity.UpdateTaskActivity
+import com.dgut.todo.utils.DASHBOARD_RECYCLEVIEW_REFRESH
+import com.dgut.todo.utils.TASK_IS_FINISH
 import com.dgut.todo.utils.getFormatDate
 import com.dgut.todo.utils.getFormatTime
 import com.dgut.todo.utils.views.recyclerview.itemclick.RecyclerItemClickListener
@@ -138,7 +142,12 @@ class SearchFragment : Fragment(), View.OnClickListener {
                     taskAdapter.deleteTask(position)
                     isTaskListEmpty()
                 } else {
-                    taskAdapter.unFinishTask(position)
+                    val taskList = taskAdapter.getList()
+                    if(taskList[position].finish!!.toInt() == TASK_IS_FINISH) {
+                        taskAdapter.unFinishTask(position)
+                    }else {
+                        taskAdapter.finishTask(position)
+                    }
                     isTaskListEmpty()
                 }
             }
@@ -166,9 +175,17 @@ class SearchFragment : Fragment(), View.OnClickListener {
                             myself to get a context outside an Activity class -
                             feel free to use your own method */
 
-                        icon = BitmapFactory.decodeResource(
-                            resources, R.mipmap.ic_unfinish
-                        )
+                        val position = viewHolder.adapterPosition
+                        val taskList = taskAdapter.getList()
+                        if(position != -1 && taskList[position].finish!!.toInt() == TASK_IS_FINISH) {
+                            icon = BitmapFactory.decodeResource(
+                                    resources, R.mipmap.ic_unfinish
+                            )
+                        }else {
+                            icon = BitmapFactory.decodeResource(
+                                    resources, R.mipmap.ic_check_white_png
+                            )
+                        }
 
                         /* Set your color for positive displacement */
                         p.color = Color.parseColor(getString(R.color.green))
@@ -281,11 +298,27 @@ class SearchFragment : Fragment(), View.OnClickListener {
 
                             override fun onLongItemClick(view: View, position: Int) {
                                 Log.e(TAG, "item long click Position : $position")
+                                val taskList = taskAdapter.getList()
+                                if(taskList[position].finish!!.toInt() == TASK_IS_FINISH){
+                                    Toast.makeText(context,"history can't be updated",Toast.LENGTH_SHORT).show()
+                                }else {
+                                    longClickForUpdate(position)
+                                }
                             }
                         })
                 )
             }
 
         }
+    }
+
+    private fun longClickForUpdate(position: Int) {
+        val taskList = taskAdapter.getList()
+        val intent = Intent(activity, UpdateTaskActivity::class.java)
+        intent.putExtra("id", taskList[position].id)
+        startActivityForResult(
+                intent,
+                DASHBOARD_RECYCLEVIEW_REFRESH
+        )
     }
 }
