@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * actionbar click
      * */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val id = item.itemId
 
 //        when (id) {
@@ -160,12 +159,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragmentClass = SearchFragment::class.java
                 toolbarMain.title = getString(R.string.search)
             }
-            R.id.nav_rate_us -> {
-                rateUs()
-            }
-            R.id.nav_share_app -> {
-                shareApp()
-            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -182,31 +175,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun rateUs() {
-        try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=" + APP_PACKAGE_NAME)
-                )
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "$e")
-        }
-    }
-
-    private fun shareApp() {
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(
-            Intent.EXTRA_TEXT, "Todo App\n\n" +
-                    "Try this app, it is Awesome app for daily tasks. And also Share and Rate this app.\n\n" +
-                    "Download Link : https://play.google.com/store/apps/details?id=com.todo.android"
-        )
-        sendIntent.type = "text/plain"
-        startActivity(Intent.createChooser(sendIntent, "Send to..."))
     }
 
     fun resetMainTitleDate(year: Int, month: Int, day: Int) {

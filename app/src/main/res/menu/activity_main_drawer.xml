@@ -19,17 +19,4 @@
             android:title="@string/history" />
     </group>
 
-    <item android:title="@string/communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_rate_us"
-                android:icon="@drawable/ic_star_black_24dp"
-                android:title="@string/rate_us" />
-            <item
-                android:id="@+id/nav_share_app"
-                android:icon="@drawable/ic_share_black_24dp"
-                android:title="@string/share_app" />
-        </menu>
-    </item>
-
 </menu>
